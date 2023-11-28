@@ -1,0 +1,292 @@
+/*----------------------------------------------------------------------------*/
+/*                                                                            */
+/*    Module:       main.cpp                                                  */
+/*    Author:       VEX                                                       */
+/*    Created:      Thu Sep 26 2019                                           */
+/*    Description:  Competition Template                                      */
+/*                                                                            */
+/*----------------------------------------------------------------------------*/
+
+// ---- START VEXCODE CONFIGURED DEVICES ----
+// Robot Configuration:
+// [Name]               [Type]        [Port(s)]
+// MR                   motor         5               
+// ML                   motor         19              
+// BR                   motor         3               
+// BL                   motor         4               
+// Controller1          controller                    
+// RD                   motor         20              
+// LD                   motor         6               
+// RC                   motor         9               
+// LC                   motor         10              
+// FL                   motor         7               
+// FR                   motor         8               
+// AL                   motor         11              
+// AR                   motor         12              
+// ---- END VEXCODE CONFIGURED DEVICES ----
+
+#include "vex.h"
+
+using namespace vex;
+
+
+competition Competition;
+
+enum DriveCodeDirection
+{
+  FORWARDS,
+  BACKWARDS,
+  ROTATE_LEFT,
+  ROTATE_RIGHT, 
+  GATE_OPEN,
+  GATE_CLOSE,
+  OPEN,
+  CLOSE,
+  ARM,
+  ARM_DOWN,
+  STOP
+
+};
+void (Drivecode(enum DriveCodeDirection dir, float time )){
+switch (dir){
+case FORWARDS: {
+FR.spin(forward);
+FL.spin(forward);
+MR.spin(forward);
+ML.spin(forward);
+BR.spin(forward);
+BL.spin(forward);
+wait(time,sec);
+  FR.stop(brakeType::hold);
+  FL.stop(brakeType::hold);
+  MR.stop(brakeType::hold);
+  ML.stop(brakeType::hold);
+  BR.stop(brakeType::hold);
+  BL.stop(brakeType::hold);
+  break;
+}
+  case BACKWARDS: {
+FR.spin(reverse);
+FL.spin(reverse);
+MR.spin(reverse);
+ML.spin(reverse);
+BR.spin(reverse);
+BL.spin(reverse);
+wait(time,sec);
+  FR.stop(brakeType::hold);
+  FL.stop(brakeType::hold);
+  MR.stop(brakeType::hold);
+  ML.stop(brakeType::hold);
+  BR.stop(brakeType::hold);
+  BL.stop(brakeType::hold);
+  break;
+  }
+  case ROTATE_LEFT: {
+  FR.spin(forward);
+  FL.spin(reverse);
+  MR.spin(forward);
+  ML.spin(forward);
+  BR.spin(reverse);
+  BL.spin(reverse);
+  wait(time,sec);
+  FR.stop(brakeType::hold);
+  FL.stop(brakeType::hold);
+  MR.stop(brakeType::hold);
+  ML.stop(brakeType::hold);
+  BR.stop(brakeType::hold);
+  BL.stop(brakeType::hold);
+  break;
+}
+case ROTATE_RIGHT: {
+  FR.spin(reverse);
+  FL.spin(forward);
+  MR.spin(reverse);
+  ML.spin(reverse);
+  BR.spin(forward);
+  BL.spin(forward);
+  wait(time,sec);
+  FR.stop(brakeType::hold);
+  FL.stop(brakeType::hold);  
+  MR.stop(brakeType::hold);
+  ML.stop(brakeType::hold);
+  BR.stop(brakeType::hold);
+  BL.stop(brakeType::hold);
+  break;
+}
+case OPEN: {
+  RD.spin(forward);
+  LD.spin(forward);
+  wait(time,sec);
+   RD.stop(brakeType::hold);
+   LD.stop(brakeType::hold);
+  break;
+}
+case CLOSE: {
+  RD.spin(reverse);
+  LD.spin(reverse);
+  wait(time,sec);
+   RD.stop(brakeType::hold);
+   LD.stop(brakeType::hold);
+  break;
+}
+case ARM: {
+  AR.spin(reverse);
+  AL.spin(forward);
+   wait(time,sec);
+   AR.stop(brakeType::hold);
+   AL.stop(brakeType::hold);
+  break;
+}
+case ARM_DOWN: {
+  AR.spin(forward);
+  AL.spin(reverse);
+   wait(time,sec);
+   AR.stop(brakeType::hold);
+   AL.stop(brakeType::hold);
+  break;
+}
+default:{
+  break;
+}
+
+}
+}
+
+void pre_auton(void) {
+  vexcodeInit();
+}
+
+void auton(void) {
+  FR.setVelocity(45, pct);
+  FL.setVelocity(45, pct);
+  MR.setVelocity(45, pct);
+  ML.setVelocity(45, pct);
+  BR.setVelocity(45, pct);
+  BL.setVelocity(45, pct);
+  
+  Drivecode(ARM,2);
+  wait(0.1,sec);
+  Drivecode(FORWARDS,3);
+  wait(0.1,sec);
+  Drivecode(ROTATE_LEFT,0.75);
+  wait(0.1,sec);
+  Drivecode(FORWARDS,1);
+  wait(0.1,sec);
+  Drivecode(OPEN,1);
+  wait(0.1,sec);
+  Drivecode(BACKWARDS,1);
+  wait(0.1,sec);
+  Drivecode(CLOSE,1);
+  wait(0.1,sec);
+  Drivecode(ROTATE_RIGHT,0.7);
+  wait(0.1,sec);
+  Drivecode(BACKWARDS,4);
+  wait(0.1,sec);
+  Drivecode(FORWARDS,0.1);
+  wait(0.1,sec);
+  Drivecode(ROTATE_RIGHT,0.75);
+  wait(0.1,sec);
+  Drivecode(BACKWARDS,0.7);
+  wait(0.1,sec);
+  Drivecode(OPEN,1);
+  wait(1.5,sec);
+  Drivecode(ROTATE_RIGHT,0.1);
+  wait(0.1,sec);
+  Drivecode(FORWARDS,2.5);
+  wait(0.1,sec);
+  Drivecode(BACKWARDS,2.5);
+  wait(1.5,sec);
+  Drivecode(ROTATE_RIGHT,0.1);
+  wait(0.1,sec);
+  Drivecode(FORWARDS,2.5);
+  wait(0.1,sec);
+  Drivecode(BACKWARDS,2.5);
+  wait(1.5,sec);
+  Drivecode(ROTATE_RIGHT,0.1);
+  wait(0.1,sec);
+  Drivecode(FORWARDS,2.5);
+  wait(0.1,sec);
+  Drivecode(BACKWARDS,2.5);
+  wait(1.5,sec);
+  Drivecode(ROTATE_RIGHT,0.1);
+  wait(0.1,sec);
+  Drivecode(FORWARDS,2.5);
+  wait(0.1,sec);
+  Drivecode(BACKWARDS,2.5);
+  wait(1.5,sec);
+  Drivecode(ROTATE_RIGHT,0.1);
+  wait(0.1,sec);
+  Drivecode(FORWARDS,2.5);
+  wait(0.1,sec);
+  Drivecode(BACKWARDS,2.5);
+  wait(1.5,sec);
+  Drivecode(ROTATE_RIGHT,0.1);
+  wait(0.1,sec);
+  Drivecode(FORWARDS,2.5);
+  wait(0.1,sec);
+  Drivecode(BACKWARDS,2.5);
+  wait(1.5,sec);
+  Drivecode(ROTATE_RIGHT,0.1);
+  wait(0.1,sec);
+  Drivecode(FORWARDS,2.5);
+  wait(0.1,sec);
+  Drivecode(BACKWARDS,2.5);
+  wait(1.5,sec);
+  Drivecode(ROTATE_RIGHT,0.1);
+  wait(0.1,sec);
+  
+}
+
+void usercontrol(void) {
+  while (1) {
+ /*  RD.setVelocity(50,pct);
+   LD.setVelocity(50,pct); */
+    int fow = Controller1.Axis3.position(pct);
+    int rot = Controller1.Axis4.position(pct);
+    FR.spin(forward, (fow - rot), pct);
+    FL.spin(forward, (fow - rot), pct);
+    MR.spin(forward, (fow - rot), pct);
+    ML.spin(forward, (fow - rot), pct);
+    BR.spin(forward, (fow + rot), pct);
+    BL.spin(forward, (fow + rot), pct);
+    AR.spin(reverse, Controller1.Axis2.position(pct), pct);
+    AL.spin(forward, Controller1.Axis2.position(pct), pct);
+    wait(20, msec);
+
+    if(Controller1.ButtonL2.pressing()){
+    RD.spin(directionType::fwd,50,velocityUnits::pct);
+    LD.spin(directionType::fwd,50,velocityUnits::pct);
+    }
+    else if(Controller1.ButtonR2.pressing()){
+    RD.spin(directionType::rev,50,velocityUnits::pct);
+    LD.spin(directionType::rev,50,velocityUnits::pct);
+    }
+    else{
+      RD.stop(brakeType::hold);
+      LD.stop(brakeType::hold);
+      }
+    wait(20, msec);
+    
+    if(Controller1.ButtonR1.pressing()){
+    RC.spin(directionType::fwd,100,velocityUnits::pct);
+    LC.spin(directionType::rev,100,velocityUnits::pct);
+    }
+    else if(Controller1.ButtonL1.pressing()){
+    RC.spin(directionType::rev,100,velocityUnits::pct);
+    LC.spin(directionType::fwd,100,velocityUnits::pct);
+    }
+    else{
+      RC.stop(brakeType::hold);
+      LC.stop(brakeType::hold);
+      };
+  }
+}
+
+int main() {
+  Competition.autonomous(auton);
+  Competition.drivercontrol(usercontrol);
+  pre_auton();
+  while (true) {
+    wait(100, msec);
+  }
+}
